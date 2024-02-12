@@ -36,5 +36,18 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	print
+	createTableSQL := `
+	CREATE TABLE IF NOT EXISTS users (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		username VARCHAR(50) NOT NULL,
+		email VARCHAR(50) NOT NULL UNIQUE,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	);`
+
+	// SQL文を実行してテーブルを作成
+	_, err = db.Exec(createTableSQL)
+	if err != nil {
+		log.Fatal("Failed to create table: ", err)
+	}
+	println("Table created successfully")
 }
