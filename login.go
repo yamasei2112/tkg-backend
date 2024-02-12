@@ -11,12 +11,12 @@ import (
 )
 
 func init() {
-	// .envファイルから環境変数をロード
+
 	gotenv.Load()
 }
 
 func main() {
-	// osパッケージを使用して環境変数を取得
+
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
 	host := os.Getenv("DB_HOST")
@@ -25,7 +25,6 @@ func main() {
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, dbName)
 
-	// データベースへの接続を設定
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal(err)
@@ -33,7 +32,6 @@ func main() {
 	println("mysql open success")
 	defer db.Close()
 
-	// データベース接続を確認
 	err = db.Ping()
 	if err != nil {
 		log.Fatal(err)
