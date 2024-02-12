@@ -2,14 +2,31 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/subosito/gotenv"
 )
 
+func init() {
+	// .envファイルから環境変数をロード
+	gotenv.Load()
+}
+
 func main() {
+	// osパッケージを使用して環境変数を取得
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, dbName)
+
 	// データベースへの接続を設定
-	db, err := sql.Open("mysql", "root:yamasei2112@tcp(127.0.0.1:3306)/test")
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -21,5 +38,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// INSERT文を実行
+	print
 }
