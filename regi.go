@@ -23,15 +23,6 @@ func main() {
 	port := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 
-	var (
-		UserID   string
-		Userpass string
-	)
-	fmt.Println("UserIDの入力")
-	fmt.Scan(&UserID)
-	fmt.Println("passwordの入力")
-	fmt.Scan(&Userpass)
-
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, dbName)
 
 	db, err := sql.Open("mysql", dsn)
@@ -45,5 +36,18 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	createTableSQL := `
+	CREATE TABLE IF NOT EXISTS users (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		username VARCHAR(50) NOT NULL,
+		email VARCHAR(50) NOT NULL UNIQUE,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	);`
 
+	// SQL文を実行してテーブルを作成
+	_, err = db.Exec(createTableSQL)
+	if err != nil {
+		log.Fatal("Failed to create table: ", err)
+	}
+	println("Table created successfully")
 }
