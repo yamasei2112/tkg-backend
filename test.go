@@ -52,7 +52,7 @@ func login() {
 
 	// ここでSQLクエリを実行して、UserIDに基づくユーザー情報を取得します。
 	var name string
-	query := "SELECT * FROM users WHERE id = '" + UserID + "'"
+	query := "SELECT * FROM users WHERE id = 'john1111'"
 	err = db.QueryRow(query, UserID).Scan(&name)
 	if err != nil {
 		log.Fatal("ユーザー情報の取得に失敗しました: ", err)
