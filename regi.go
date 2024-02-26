@@ -44,7 +44,6 @@ func main() {
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);`
 
-	// SQL文を実行してテーブルを作成
 	_, err = db.Exec(createTableSQL)
 	if err != nil {
 		log.Fatal("Failed to create table: ", err)
